@@ -16,7 +16,7 @@ spec:
         - name: authregister
           image: elmachkouriimane/authregister:latest
           ports:
-            - containerPort: 8083
+            - containerPort: 8080
           env:
             - name: DB_HOST
               valueFrom:
