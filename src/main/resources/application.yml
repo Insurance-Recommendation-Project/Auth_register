@@ -6,14 +6,14 @@ spring:
     password: ${DB_PASSWORD}
     hikari:
       initialization-fail-timeout: 0
-    jwt:
-      secret: supersecret
-    bezkoder:
-      app:
-        jwtExpirationMs: 3600000
   jpa:
     database-platform: org.hibernate.dialect.MariaDBDialect
     generate-ddl: true
     show-sql: true
     hibernate:
       ddl-auto: update
+jwt:
+  secret : supersecret
+bezkoder:
+  app:
+    jwtExpirationMs: 3600000
