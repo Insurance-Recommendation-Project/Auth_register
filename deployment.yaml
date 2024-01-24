@@ -16,7 +16,7 @@ spec:
         - name: authregister
           image: elmachkouriimane/authregister:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 8083
           env:
             - name: DB_HOST
               valueFrom:
@@ -64,7 +64,7 @@ spec:
   type: NodePort
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 8080
+      port: 8083
+      targetPort: 8083
 status:
   loadBalancer: {}

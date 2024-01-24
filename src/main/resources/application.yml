@@ -17,3 +17,5 @@ jwt:
 bezkoder:
   app:
     jwtExpirationMs: 3600000
+server:
+  port: 8083
