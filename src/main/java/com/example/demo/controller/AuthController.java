@@ -184,4 +184,9 @@ String lastSignedInUsername;
 		Optional<User> user = userRepository.findByUsername(loginRequest.getUsername());
 		tokenRepository.deleteById(tokenRepository.findByUser(user.get()).get().getId());
 	}
+	@GetMapping("/hello")
+	   public String test()
+	    {
+	        return "Hello amona";
+	    }
 }
