@@ -4,12 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "userauth")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long id;
+   // private Long user_id;
 
     private String username;
 
@@ -25,13 +26,14 @@ public class User {
 
     private String account_address;
 
-
+private String wallet;
 
    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
           name = "users_roles",
           joinColumns = @JoinColumn(name = "user_id"),
+       //   joinColumns = @JoinColumn(name = "id"),
           inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
@@ -43,19 +45,21 @@ public class User {
         this.password = password;
     }
 
-    public User(String username, String password, String nom, String prenom, String tel) {
+    public User(String username, String password, String nom, String prenom, String tel,String wallet) {
         super();
         this.username = username;
         this.password = password;
         this.nom = nom;
         this.prenom = prenom;
         this.tel = tel;
+        this.wallet=wallet;
     }
 
     public User(Long id, String username, String password, String nom, String prenom,
-                String tel, String CIN, String account_address, Set<Role> roles) {
+                String tel, String CIN, String account_address, Set<Role> roles,String wallet) {
         super();
-        this.user_id = id;
+       // this.user_id = id;
+        this.id = id;
         this.username = username;
         this.password = password;
         this.nom = nom;
@@ -64,14 +68,17 @@ public class User {
         this.CIN = CIN;
         this.account_address = account_address;
         this.roles = roles;
+        this.wallet=wallet;
     }
 
     public Long getId() {
-        return user_id;
+     //  return user_id;
+        return id;
     }
 
     public void setId(Long id) {
-        this.user_id = id;
+       // this.user_id = id;
+        this.id = id;
     }
 
     public String getUsername() {

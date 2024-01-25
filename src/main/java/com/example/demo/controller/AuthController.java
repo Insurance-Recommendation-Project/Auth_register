@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,11 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.models.ERole;
 import com.example.demo.models.Role;
@@ -61,6 +58,7 @@ public class AuthController {
 
 	@Autowired
 	JwtUtils jwtUtils;
+String lastSignedInUsername;
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginRequest loginRequest) {
@@ -85,6 +83,8 @@ public class AuthController {
 			user_token.setId(tokenRepository.findByUser(user.get()).get().getId());
 			System.out.println("id : "+tokenRepository.findByUser(user.get()).get().getId());
 			tokenRepository.save(user_token);
+			String username = loginRequest.getUsername();
+			lastSignedInUsername = username;
 		}
 
 		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(),
@@ -93,6 +93,39 @@ public class AuthController {
 
 
 	}
+
+
+
+/*
+	@GetMapping("/user")
+
+
+	public ResponseEntity<String> getLastSignedInUsername() {
+
+		String j = "{\"username\":\"" + lastSignedInUsername + "\"}";
+			return ResponseEntity.ok(j);
+
+
+	}
+*/
+	@GetMapping("/user")
+	public ResponseEntity<List<User>> getLastSignedInUsername() {
+		List<User> userList = new ArrayList<>();
+
+		User user = new User();
+		user.setUsername(lastSignedInUsername);
+
+		userList.add(user);
+
+		return ResponseEntity.ok(userList);
+	}
+
+
+
+
+
+
+
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -106,7 +139,8 @@ public class AuthController {
 				encoder.encode(signUpRequest.getPassword()),
 				signUpRequest.getNom(),
 				signUpRequest.getPrenom(),
-				signUpRequest.getTelephone()
+				signUpRequest.getTelephone(),
+				signUpRequest.getWallet()
 		);
 
 		Set<String> strRoles = signUpRequest.getRoles();

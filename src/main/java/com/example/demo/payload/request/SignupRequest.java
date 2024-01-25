@@ -8,7 +8,9 @@ public class SignupRequest {
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
-
+ 
+    
+    
     @NotBlank
     @Size(max = 20)
     private String nom;
@@ -30,6 +32,9 @@ public class SignupRequest {
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+    @NotBlank
+    @Size(min = 6, max = 40)
+    private String wallet;
   
     public String getAcount_address() {
 		return acount_address;
@@ -50,6 +55,9 @@ public class SignupRequest {
 
 	public String getUsername() {
         return username;
+    }
+    public String getWallet() {
+        return wallet;
     }
  
     public void setUsername(String username) {
